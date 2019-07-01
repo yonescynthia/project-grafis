@@ -1,5 +1,48 @@
-#include "GL/glut.h"
-#include "stdio.h"
+#include <windows.h>
+#include <iostream>
+#include <stdlib.h>
+#ifdef __APPLE__
+#include <OpenGL/OpenGL.h>
+#include <GLUT/glut.h>
+#else
+#include <GL/glut.h>
+#endif
+#include "imageloader.h"
+
+using namespace std;
+
+GLuint loadTexture(Image* image) {
+  GLuint textureId;
+  glGenTextures(1, &textureId);
+  glBindTexture(GL_TEXTURE_2D, textureId);
+  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, image->width, image->height,
+               0, GL_RGB, GL_UNSIGNED_BYTE, image->pixels);
+    return textureId;
+}
+    GLuint _textureId;
+    GLUquadric *quad;
+    float rotate;
+    //GLUquadricObj quad;
+
+void initRendering(){
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_LIGHTING);
+    glEnable(GL_LIGHT0);
+    glEnable(GL_NORMALIZE);
+    glEnable(GL_COLOR_MATERIAL);
+    quad = gluNewQuadric();
+
+    Image* image = loadBMP("tes_2.bmp");
+    _textureId = loadTexture(image);
+    delete image;
+
+    }
+void Resize(int w, int h){
+    glViewport(0,0,w,h);
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    gluPerspective(45.0, (float)w / (float)h, 1.0, 200.0);
+}
 
 float view_rotx = 20.0f, view_roty = 30.0f;
 int oldMouseX, oldMouseY;
@@ -47,7 +90,10 @@ void Bola(){
 double putaran = 0.0;
 void display(){
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D, _textureId);
     glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
     gluLookAt(4,4,4, // eye pos
     0,0,0, // look at
@@ -59,6 +105,12 @@ void display(){
     glRotatef(view_roty, 0.0f, 1.0f, 0.0f);
     glTranslatef(-0.5f, -0.5f, -0.5f);
 
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    gluQuadricTexture(quad, 1);
+    gluSphere(quad, 2, 20, 20);
     Bola();
 
     glFlush();
@@ -99,10 +151,10 @@ void mouseMotion(int x, int y){
 
 int main(int argc, char **argv){
     glutInit(&argc, argv);
-    glutInitDisplayMode(GLUT_DOUBLE | GLUT_DEPTH);
+    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
     glutInitWindowSize(640, 480);
     glutInitWindowPosition(50, 50);
-    glutCreateWindow("YONESCYNTHIA");
+    glutCreateWindow("TES BUTA WARNA");
     glutDisplayFunc(display);
     glutReshapeFunc(reshape);
 
