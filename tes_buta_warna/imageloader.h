@@ -11,9 +11,8 @@ class Image {
 		int width;
 		int height;
 };
-
 //Reads a bitmap image from file.
-Image* loadBMP(const char* tes_2.bmp);
+Image* loadBMP(const char* tes_2);
 
 
 #endif // IMAGELOADER_H_INCLUDED

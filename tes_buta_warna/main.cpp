@@ -1,6 +1,8 @@
 #include <windows.h>
 #include <iostream>
 #include <stdlib.h>
+#include <stdio.h>
+//#include <gl/glaux.h>
 #ifdef __APPLE__
 #include <OpenGL/OpenGL.h>
 #include <GLUT/glut.h>
@@ -34,7 +36,7 @@ void initRendering(){
 
     Image* image = loadBMP("tes_2.bmp");
     _textureId = loadTexture(image);
-    delete image;
+    //delete image;
 
     }
 void Resize(int w, int h){
@@ -109,8 +111,8 @@ void display(){
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    gluQuadricTexture(quad, 1);
-    gluSphere(quad, 2, 20, 20);
+    //gluQuadricTexture(quad, 1);
+    //gluSphere(quad, 2, 20, 20);
     Bola();
 
     glFlush();
