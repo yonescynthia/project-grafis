@@ -7,30 +7,11 @@
 
 GLUquadric *sun;
 GLuint sunTexture;
-GLUquadric *mercur;
-GLuint mercurTexture;
-GLUquadric *venus;
-GLuint venusTexture;
-GLUquadric *pamant;
-GLuint earthTexture;
-GLUquadric *luna;
-GLuint lunaTexture;
-GLUquadric *marte;
-GLuint marteTexture;
-GLUquadric *jupiter;
-GLuint jupiterTexture;
-GLUquadric *saturn;
-GLuint saturnTexture;
-GLUquadric *uranus;
-GLuint uranusTexture;
-GLUquadric *neptun;
-GLuint neptunTexture;
-GLUquadric *pluto;
-GLuint plutoTexture;
+
 int zoom = 0;
 boolean twist = true, twistR= true, twistG= true, twistB= true, twistM= true, twistJ= true, twistS= true, twistN= true, twistU= true, twistP= true;
-float Cx = 0.0f, Cy = 2.5f, Cz = 0.0f;
-float Lx = 0.0f, Ly = 2.5f, Lz = -20.0f;
+float Cx = 0.0f, Cy = 2.5f, Cz = 10.0f;
+float Lx = 0.0f, Ly = 2.5f, Lz = -50.0f;
 float sudut_x = 0.0f;
 float sudut_x2 = 0.0f;
 float sudut_z = 0.0f;
@@ -90,7 +71,6 @@ void cameraRotation(Vector refer, double angle){
     Lz = Lz1+Cz;
 }
 
-
 void initGL(int width, int height)
 {
     const GLfloat light_ambient[] = { 0.0f, 0.0f, 0.0f, 1.0f };
@@ -98,12 +78,6 @@ void initGL(int width, int height)
     const GLfloat light_specular[] = { 1.0f, 1.0f, 1.0f, 1.0f };
     const GLfloat light_position[] = { 2.0f, 5.0f, 5.0f, 0.0f };
     glClearColor(0.1f, 0.1f, 0.1f, 0.0f);
-    glEnable(GL_LIGHT0);
-    glEnable(GL_LIGHTING);
-    glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient);
-    glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse);
-    glLightfv(GL_LIGHT0, GL_SPECULAR, light_specular);
-    glLightfv(GL_LIGHT0, GL_POSITION, light_position);
     glEnable(GL_CULL_FACE);
     glCullFace(GL_BACK);
     glEnable(GL_DEPTH_TEST);
@@ -114,27 +88,6 @@ void initGL(int width, int height)
     glOrtho(-1.0, 1.0, -1.0, 1.0, -2.0, 2.0);
     sun = gluNewQuadric();
     gluQuadricTexture( sun, GL_TRUE);
-    mercur = gluNewQuadric();
-    gluQuadricTexture( mercur, GL_TRUE);
-    venus = gluNewQuadric();
-    gluQuadricTexture( venus, GL_TRUE);
-    pamant = gluNewQuadric();
-    gluQuadricTexture( pamant, GL_TRUE);
-    luna = gluNewQuadric();
-    gluQuadricTexture( luna, GL_TRUE);
-    marte = gluNewQuadric();
-    gluQuadricTexture( marte, GL_TRUE);
-    jupiter = gluNewQuadric();
-    gluQuadricTexture( jupiter, GL_TRUE);
-    saturn = gluNewQuadric();
-    gluQuadricTexture( saturn, GL_TRUE);
-    uranus = gluNewQuadric();
-    gluQuadricTexture( uranus, GL_TRUE);
-    neptun = gluNewQuadric();
-    gluQuadricTexture( neptun, GL_TRUE);
-    glColor3f(0.658824f, 0.658824f, 0.658824f);
-    pluto = gluNewQuadric();
-    gluQuadricTexture( pluto, GL_TRUE);
     gluPerspective(80.0f, (GLfloat)width/(GLfloat)height, 2.0f, 100.0f);
     glMatrixMode(GL_MODELVIEW);
 
@@ -143,15 +96,17 @@ void initGL(int width, int height)
 
 Vector sumbu_z, sumbu_x, sumbu_y;
 
-
+float Ex = 0 ,Ey = 0,Ez,Cex,Cey,Cez;
 static void display(void)
 {
 glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 glMatrixMode(GL_MODELVIEW);
+
+glLoadIdentity();
 gluLookAt(Cx, Cy, Cz,
             Lx, Ly, Lz,
-            sumbu_y.x, sumbu_y.y, sumbu_y.z);
-glLoadIdentity();
+            0, 1, 0);
+
 static float axisRot = 0.0f;
 static float globRotR = 0.0f;
 static float globRotG = 50.0f;
@@ -163,14 +118,15 @@ static float globRotU = 175.0f;
 static float globRotN = 200.0f;
 static float globRotP = 225.0f;
 
+
     glPushMatrix();
     glEnable ( GL_TEXTURE_2D );
     glBindTexture ( GL_TEXTURE_2D, sunTexture);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTranslatef(0.0f,0.0f,-20);
-    glTranslatef(-15.0f,0.0f,0.0f);
-    gluSphere(sun, 5, 20, 20);
+    glTranslatef(0.0f,0.0f,-5);
+    glTranslatef(0.0f,0.0f,0.0f);
+    gluSphere(sun, 7, 20, 20);
     glPopMatrix();
 
     glPushMatrix();
@@ -178,9 +134,9 @@ static float globRotP = 225.0f;
     glBindTexture ( GL_TEXTURE_2D, sunTexture);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTranslatef(0.0f,0.0f,-20);
-    glTranslatef(-3.0f,0.0f,0.0f);
-    gluSphere(sun, 5, 20, 20);
+    glTranslatef(0.0f,0.0f,-5);
+    glTranslatef(30.0f,0.0f,0.0f);
+    gluSphere(sun, 7, 20, 20);
     glPopMatrix();
 
     glPushMatrix();
@@ -188,9 +144,9 @@ static float globRotP = 225.0f;
     glBindTexture ( GL_TEXTURE_2D, sunTexture);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTranslatef(0.0f,0.0f,-20);
-    glTranslatef(9.0f,0.0f,0.0f);
-    gluSphere(sun, 5, 20, 20);
+    glTranslatef(0.0f,0.0f,-5);
+    glTranslatef(60.0f,0.0f,0.0f);
+    gluSphere(sun, 7, 20, 20);
     glPopMatrix();
 
     glPushMatrix();
@@ -198,9 +154,9 @@ static float globRotP = 225.0f;
     glBindTexture ( GL_TEXTURE_2D, sunTexture);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTranslatef(0.0f,0.0f,-20);
-    glTranslatef(25.0f,0.0f,0.0f);
-    gluSphere(sun, 5, 20, 20);
+    glTranslatef(0.0f,0.0f,-5);
+    glTranslatef(90.0f,0.0f,0.0f);
+    glutSolidSphere(7,30,30);
     glPopMatrix();
 
 if (twist == true){
@@ -226,23 +182,9 @@ if (twist == true){
     }
 }
 
-
-   //draw textured rectangle
    glPushMatrix();
       glTranslatef(0.0,0.0,1.0);
       glScalef(0.5,0.5,0.5);
-      glBegin(GL_POLYGON);
-        glTexCoord2f(0.0, 0.0);
-        glVertex3f( -1.0,-1.0, 0.0);
-        glTexCoord2f(1.0, 0.0);
-        glVertex3f(  1.0,-1.0, 0.0);
-        glTexCoord2f(1.0, 1.0);
-        glVertex3f(  1.0, 1.0, 0.0);
-        glTexCoord2f(0.0, 1.0);
-        glVertex3f( -1.0, 1.0, 0.0);
-        glTexCoord2f(0.0, 0.0);
-        glVertex3f( -1.0,-1.0, 0.0);
-      glEnd();
    glPopMatrix();
 
 glDisable ( GL_TEXTURE_2D );
@@ -265,110 +207,31 @@ static void keyboard(unsigned char key,int x,int y)
          }
 	switch(key)
 	{
-    case '74': // J
-        sudut_z += 15.0f;
-        sumbu_z.vectorRotation(sumbu_y, sudut_z - sudut_z2); //memutar vector sumbu z terhadap x (target, patokan)
-        sumbu_x.vectorRotation(sumbu_y, sudut_z - sudut_z2);
-        cameraRotation(sumbu_y, sudut_z - sudut_z2); // look at
-        sudut_z2 = sudut_z;
+    case 'f':
+        Lz -= 1;
+        Lx += 1;
         break;
-    case 'i': /* zoom in */
-         zoom = zoom  - 20.0f;
-         glViewport(0, 0, 1024, 768);
-         glMatrixMode(GL_PROJECTION);
-         glLoadIdentity();
-         gluPerspective(80.0f + zoom,1024/768,2.0f,100.0f);
-         glMatrixMode(GL_MODELVIEW);
-         glLoadIdentity();
+
+    case 'g':
+        Cx += 20;
+        Lx += 20;
         break;
-    case 'o': /* zoom out */
-         zoom = zoom  + 20.0f;
-         glViewport(0, 0, 1024, 768);
-         glMatrixMode(GL_PROJECTION);
-         glLoadIdentity();
-         gluPerspective(80.0f + zoom,1024/768,2.0f,100.0f);
-         glMatrixMode(GL_MODELVIEW);
-         glLoadIdentity();
+
+    case 'a':
+        Cx -= 1;
+        Lx -= 1;
         break;
-    case '0': /* exit */
-	     if (twist==false){
-            twist = true;
-            twistR = true;
-            twistG = true;
-            twistB = true;
-            twistM = true;
-            twistJ = true;
-            twistS = true;
-            twistU = true;
-            twistN = true;
-            twistP = true;
-	     }else if(twist == true){
-            twist = false;
-	     }
+    case 's':
+        Cz = Cz +1;
         break;
-	case '1': /* exit */
-	     if (twistR==false){
-            twistR = true;
-	     }else if(twistR == true){
-            twistR = false;
-	     }
+    case 'd':
+        Cx += 1;
+        Lx += 1;
         break;
-	case '2': /* exit */
-	     if (twistG==false){
-            twistG = true;
-	     }else if(twistG == true){
-            twistG = false;
-	     }
+    case 'w':
+        Cz = Cz -1;
         break;
-    case '3': /* exit */
-	     if (twistB==false){
-            twistB = true;
-	     }else if(twistB == true){
-            twistB = false;
-	     }
-        break;
-    case '4': /* exit */
-	     if (twistM==false){
-            twistM = true;
-	     }else if(twistM == true){
-            twistM = false;
-	     }
-        break;
-    case '5': /* exit */
-	     if (twistJ==false){
-            twistJ = true;
-	     }else if(twistJ == true){
-            twistJ = false;
-	     }
-        break;
-    case '6': /* exit */
-	     if (twistS==false){
-            twistS = true;
-	     }else if(twistS == true){
-            twistS = false;
-	     }
-        break;
-    case '7': /* exit */
-	     if (twistU==false){
-            twistU = true;
-	     }else if(twistU == true){
-            twistU = false;
-	     }
-        break;
-    case '8': /* exit */
-	     if (twistN==false){
-            twistN = true;
-	     }else if(twistN == true){
-            twistN = false;
-	     }
-        break;
-    case '9': /* exit */
-	     if (twistP==false){
-            twistP = true;
-	     }else if(twistP == true){
-            twistP = false;
-	     }
-        break;
+
     case 'e': /* exit */
 	     exit(0);
         break;
@@ -378,11 +241,10 @@ static void keyboard(unsigned char key,int x,int y)
 	glutPostRedisplay();
 }
 
-
 int main(int argc, char *argv[])
 {
-    int width = 1024;
-    int height = 768;
+    int width = 640;
+    int height = 480;
     glutInit(&argc, argv);
     glutInitWindowSize(width,height);
     glutInitWindowPosition(10,10);
