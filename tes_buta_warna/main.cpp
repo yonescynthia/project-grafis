@@ -1,169 +1,397 @@
 #include <windows.h>
-#include <iostream>
+#include <GL/glut.h>
 #include <stdlib.h>
 #include <stdio.h>
-//#include <gl/glaux.h>
-#ifdef __APPLE__
-#include <OpenGL/OpenGL.h>
-#include <GLUT/glut.h>
-#else
-#include <GL/glut.h>
-#endif
-#include "imageloader.h"
+#include <math.h>
+#include <iostream>
 
-using namespace std;
+GLUquadric *sun;
+GLuint sunTexture;
+GLUquadric *mercur;
+GLuint mercurTexture;
+GLUquadric *venus;
+GLuint venusTexture;
+GLUquadric *pamant;
+GLuint earthTexture;
+GLUquadric *luna;
+GLuint lunaTexture;
+GLUquadric *marte;
+GLuint marteTexture;
+GLUquadric *jupiter;
+GLuint jupiterTexture;
+GLUquadric *saturn;
+GLuint saturnTexture;
+GLUquadric *uranus;
+GLuint uranusTexture;
+GLUquadric *neptun;
+GLuint neptunTexture;
+GLUquadric *pluto;
+GLuint plutoTexture;
+int zoom = 0;
+boolean twist = true, twistR= true, twistG= true, twistB= true, twistM= true, twistJ= true, twistS= true, twistN= true, twistU= true, twistP= true;
+float Cx = 0.0f, Cy = 2.5f, Cz = 0.0f;
+float Lx = 0.0f, Ly = 2.5f, Lz = -20.0f;
+float sudut_x = 0.0f;
+float sudut_x2 = 0.0f;
+float sudut_z = 0.0f;
+float sudut_z2 = 0.0f;
+float sudut_y = 0.0f;
+float sudut_y2 = 0.0f;
 
-GLuint loadTexture(Image* image) {
-  GLuint textureId;
-  glGenTextures(1, &textureId);
-  glBindTexture(GL_TEXTURE_2D, textureId);
-  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, image->width, image->height,
-               0, GL_RGB, GL_UNSIGNED_BYTE, image->pixels);
-    return textureId;
+
+float toRadians(float angle){
+    return angle * M_PI / 180;
 }
-    GLuint _textureId;
-    GLUquadric *quad;
-    float rotate;
-    //GLUquadricObj quad;
 
-void initRendering(){
-    glEnable(GL_DEPTH_TEST);
-    glEnable(GL_LIGHTING);
+class Vector{
+public :
+    float x, y, z;
+    void set_values (float startX, float startY, float startZ){
+         x = startX;
+         y = startY;
+         z = startZ;
+    }
+
+    void vectorRotation(Vector refs, float angle){
+        Vector temp = refs;
+        float magnitude = sqrt(pow(temp.x, 2) + pow(temp.y, 2) + pow(temp.z, 2));
+        temp.x = temp.x / magnitude;
+        temp.y = temp.y / magnitude;
+        temp.z = temp.z / magnitude;
+        float dot_product = (x * temp.x)+(y * temp.y)+(z * temp.z);
+        float cross_product_x = (y * temp.z) - (temp.z * z);
+        float cross_product_y = -((x * temp.z) - (z * temp.x));
+        float cross_product_z = (x * temp.y) - (y * temp.x);
+        float last_factor_rodrigues = 1.0f - cos(toRadians(fmod(angle, 360.0f)));
+        x = (x * cos(toRadians(fmod(angle, 360.0f)))) + (cross_product_x * sin(toRadians(fmod(angle, 360.0f)))) + (dot_product * last_factor_rodrigues * x);
+        y = (y * cos(toRadians(fmod(angle, 360.0f)))) + (cross_product_y * sin(toRadians(fmod(angle, 360.0f)))) + (dot_product * last_factor_rodrigues * y);
+        z = (z * cos(toRadians(fmod(angle, 360.0f)))) + (cross_product_z * sin(toRadians(fmod(angle, 360.0f)))) + (dot_product * last_factor_rodrigues * z);
+    }
+};
+
+void cameraRotation(Vector refer, double angle){
+    float M = sqrt(pow(refer.x, 2) + pow(refer.y, 2) + pow(refer.z, 2));
+    float Up_x1 = refer.x / M;
+    float Up_y1 = refer.y / M;
+    float Up_z1 = refer.z / M;
+    float VLx = Lx - Cx;
+    float VLy = Ly - Cy;
+    float VLz = Lz - Cz;
+    float dot_product = (VLx * Up_x1) + (VLy * Up_y1) + (VLz * Up_z1);
+    float cross_product_x = (Up_y1 * VLz) - (VLy * Up_z1);
+    float cross_product_y = -((Up_x1 * VLz) - (Up_z1 * VLx));
+    float cross_product_z = (Up_x1 * VLy) - (Up_y1 * VLx);
+    float last_factor_rodrigues = 1.0f - cos(toRadians(angle));
+    float Lx1 = (VLx * cos(toRadians(angle))) + (cross_product_x * sin(toRadians(angle))) + (dot_product * last_factor_rodrigues * VLx);
+    float Ly1 = (VLy * cos(toRadians(angle))) + (cross_product_y * sin(toRadians(angle))) + (dot_product * last_factor_rodrigues * VLy);
+    float Lz1 = (VLz * cos(toRadians(angle))) + (cross_product_z * sin(toRadians(angle))) + (dot_product * last_factor_rodrigues * VLz);
+    Lx = Lx1+Cx;
+    Ly = Ly1+Cy;
+    Lz = Lz1+Cz;
+}
+
+
+void initGL(int width, int height)
+{
+    const GLfloat light_ambient[] = { 0.0f, 0.0f, 0.0f, 1.0f };
+    const GLfloat light_diffuse[] = { 1.0f, 1.0f, 1.0f, 1.0f };
+    const GLfloat light_specular[] = { 1.0f, 1.0f, 1.0f, 1.0f };
+    const GLfloat light_position[] = { 2.0f, 5.0f, 5.0f, 0.0f };
+    glClearColor(0.1f, 0.1f, 0.1f, 0.0f);
     glEnable(GL_LIGHT0);
-    glEnable(GL_NORMALIZE);
+    glEnable(GL_LIGHTING);
+    glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient);
+    glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse);
+    glLightfv(GL_LIGHT0, GL_SPECULAR, light_specular);
+    glLightfv(GL_LIGHT0, GL_POSITION, light_position);
+    glEnable(GL_CULL_FACE);
+    glCullFace(GL_BACK);
+    glEnable(GL_DEPTH_TEST);
+    glDepthFunc(GL_LESS);
     glEnable(GL_COLOR_MATERIAL);
-    quad = gluNewQuadric();
-
-    Image* image = loadBMP("tes_2.bmp");
-    _textureId = loadTexture(image);
-    //delete image;
-
-    }
-void Resize(int w, int h){
-    glViewport(0,0,w,h);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    gluPerspective(45.0, (float)w / (float)h, 1.0, 200.0);
+    glOrtho(-1.0, 1.0, -1.0, 1.0, -2.0, 2.0);
+    sun = gluNewQuadric();
+    gluQuadricTexture( sun, GL_TRUE);
+    mercur = gluNewQuadric();
+    gluQuadricTexture( mercur, GL_TRUE);
+    venus = gluNewQuadric();
+    gluQuadricTexture( venus, GL_TRUE);
+    pamant = gluNewQuadric();
+    gluQuadricTexture( pamant, GL_TRUE);
+    luna = gluNewQuadric();
+    gluQuadricTexture( luna, GL_TRUE);
+    marte = gluNewQuadric();
+    gluQuadricTexture( marte, GL_TRUE);
+    jupiter = gluNewQuadric();
+    gluQuadricTexture( jupiter, GL_TRUE);
+    saturn = gluNewQuadric();
+    gluQuadricTexture( saturn, GL_TRUE);
+    uranus = gluNewQuadric();
+    gluQuadricTexture( uranus, GL_TRUE);
+    neptun = gluNewQuadric();
+    gluQuadricTexture( neptun, GL_TRUE);
+    glColor3f(0.658824f, 0.658824f, 0.658824f);
+    pluto = gluNewQuadric();
+    gluQuadricTexture( pluto, GL_TRUE);
+    gluPerspective(80.0f, (GLfloat)width/(GLfloat)height, 2.0f, 100.0f);
+    glMatrixMode(GL_MODELVIEW);
+
 }
 
-float view_rotx = 20.0f, view_roty = 30.0f;
-int oldMouseX, oldMouseY;
 
-    void initGL(){
-    glShadeModel(GL_FLAT);
-
-    float ambient[] = {1.0f,1.0f,1.0f,1.0f};
-    float diffuse[] = {1.0f,1.0f,1.0f,1.0f};
-    float specular[] = {0.2f,1.0f,0.2f,1.0f};
-    float position[] = {20.0f,30.0f,20.0f,0.0f};
-
-    glLightfv(GL_LIGHT0, GL_AMBIENT, ambient);
-    glLightfv(GL_LIGHT0, GL_DIFFUSE, diffuse);
-    glLightfv(GL_LIGHT0, GL_POSITION, position);
-    glMaterialfv(GL_FRONT, GL_SPECULAR, specular);
-
-    float mambient[] ={0.1745f, 0.01175f, 0.01175f, 0.55f};
-    float mdiffuse[] ={0.61424f, 0.04136f, 0.04136f, 0.55f };
-    float mspecular[] ={0.727811f, 0.626959f, 0.626959f, 0.55f };
-    float mshine =76.8f;
-
-    glMaterialfv(GL_FRONT,GL_AMBIENT,mambient);
-    glMaterialfv(GL_FRONT,GL_DIFFUSE,mdiffuse);
+Vector sumbu_z, sumbu_x, sumbu_y;
 
 
-    glMaterialfv(GL_FRONT,GL_SPECULAR,mspecular);
-    glMaterialf (GL_FRONT,GL_SHININESS,mshine);
+static void display(void)
+{
+glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+glMatrixMode(GL_MODELVIEW);
+gluLookAt(Cx, Cy, Cz,
+            Lx, Ly, Lz,
+            sumbu_y.x, sumbu_y.y, sumbu_y.z);
+glLoadIdentity();
+static float axisRot = 0.0f;
+static float globRotR = 0.0f;
+static float globRotG = 50.0f;
+static float globRotB = 75.0f;
+static float globRotM = 100.0f;
+static float globRotJ = 125.0f;
+static float globRotS = 150.0f;
+static float globRotU = 175.0f;
+static float globRotN = 200.0f;
+static float globRotP = 225.0f;
 
-    glEnable(GL_LIGHTING);
-    glEnable(GL_LIGHT0);
-    glEnable(GL_DEPTH_TEST);
-    glEnable(GL_NORMALIZE);
+    glPushMatrix();
+    glEnable ( GL_TEXTURE_2D );
+    glBindTexture ( GL_TEXTURE_2D, sunTexture);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTranslatef(0.0f,0.0f,-20);
+    glTranslatef(-15.0f,0.0f,0.0f);
+    gluSphere(sun, 5, 20, 20);
+    glPopMatrix();
+
+    glPushMatrix();
+    glEnable ( GL_TEXTURE_2D );
+    glBindTexture ( GL_TEXTURE_2D, sunTexture);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTranslatef(0.0f,0.0f,-20);
+    glTranslatef(-3.0f,0.0f,0.0f);
+    gluSphere(sun, 5, 20, 20);
+    glPopMatrix();
+
+    glPushMatrix();
+    glEnable ( GL_TEXTURE_2D );
+    glBindTexture ( GL_TEXTURE_2D, sunTexture);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTranslatef(0.0f,0.0f,-20);
+    glTranslatef(9.0f,0.0f,0.0f);
+    gluSphere(sun, 5, 20, 20);
+    glPopMatrix();
+
+    glPushMatrix();
+    glEnable ( GL_TEXTURE_2D );
+    glBindTexture ( GL_TEXTURE_2D, sunTexture);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTranslatef(0.0f,0.0f,-20);
+    glTranslatef(25.0f,0.0f,0.0f);
+    gluSphere(sun, 5, 20, 20);
+    glPopMatrix();
+
+if (twist == true){
+    axisRot += 0.1f; axisRot=fmod(axisRot, 360.0f);
+    if (twistR == true){
+        globRotR += 2.0f; globRotR=fmod(globRotR, 360.0f);
+    }if (twistG == true){
+        globRotG += 1.7f; globRotG=fmod(globRotG, 360.0f);
+    }if (twistB == true){
+        globRotB += 1.3f; globRotB=fmod(globRotB, 360.0f);
+    }if (twistM == true){
+        globRotM += 1.0f; globRotM=fmod(globRotM, 360.0f);
+    }if (twistJ == true){
+        globRotJ += 0.7f; globRotJ=fmod(globRotJ, 360.0f);
+    }if (twistS == true){
+        globRotS += 0.5f; globRotS=fmod(globRotS, 360.0f);
+    }if (twistU == true){
+        globRotU += 0.3f; globRotU=fmod(globRotU, 360.0f);
+    }if (twistN == true){
+        globRotN += 0.2f; globRotN=fmod(globRotN, 360.0f);
+    }if (twistP == true){
+        globRotP += 0.1f; globRotP=fmod(globRotP, 360.0f);
     }
+}
 
-void Bola(){
-    glColor3f(0,1,1);
-    float BODY_RADIUS=0.5f;
-    int SLICES=30;
-    int STACKS=30;
-    GLUquadric *q = gluNewQuadric();
-    gluSphere(q, BODY_RADIUS, SLICES, STACKS);
-    }
 
-double putaran = 0.0;
-void display(){
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
-    glEnable(GL_TEXTURE_2D);
-    glBindTexture(GL_TEXTURE_2D, _textureId);
-    glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-    gluLookAt(4,4,4, // eye pos
-    0,0,0, // look at
-    0,0,1); // up
-    putaran+=0.2;
+   //draw textured rectangle
+   glPushMatrix();
+      glTranslatef(0.0,0.0,1.0);
+      glScalef(0.5,0.5,0.5);
+      glBegin(GL_POLYGON);
+        glTexCoord2f(0.0, 0.0);
+        glVertex3f( -1.0,-1.0, 0.0);
+        glTexCoord2f(1.0, 0.0);
+        glVertex3f(  1.0,-1.0, 0.0);
+        glTexCoord2f(1.0, 1.0);
+        glVertex3f(  1.0, 1.0, 0.0);
+        glTexCoord2f(0.0, 1.0);
+        glVertex3f( -1.0, 1.0, 0.0);
+        glTexCoord2f(0.0, 0.0);
+        glVertex3f( -1.0,-1.0, 0.0);
+      glEnd();
+   glPopMatrix();
 
-    glTranslatef(0.5f, 0.5f, 0.5f);
-    glRotatef(view_rotx, 1.0f, 0.0f, 0.0f);
-    glRotatef(view_roty, 0.0f, 1.0f, 0.0f);
-    glTranslatef(-0.5f, -0.5f, -0.5f);
+glDisable ( GL_TEXTURE_2D );
 
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    //gluQuadricTexture(quad, 1);
-    //gluSphere(quad, 2, 20, 20);
-    Bola();
+glutSwapBuffers();
+}
 
-    glFlush();
-    glutSwapBuffers();
-    }
-
-void timer(int value){
+static void idle(void)
+{
     glutPostRedisplay();
-    glutTimerFunc(15, timer, 0);
-    }
-
-void reshape(GLsizei width, GLsizei height){
-    if (height == 0) height = 1;
-    GLfloat aspect = (GLfloat)width / (GLfloat)height;
-    glViewport(30, 6, width, height);
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    gluPerspective(45.0f, aspect, 1.0f, 20.0f);
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
-    }
-
-void mouseControl(int button, int state, int x, int y){
-    oldMouseX = x;
-    oldMouseY = y;
 }
 
-void mouseMotion(int x, int y){
-    int getX = x;
-    int getY = y;
-    float thetaY = 360.0f*(getX - oldMouseX)/640;
-    float thetaX = 360.0f*(getY - oldMouseY)/480;
-    oldMouseX = getX;
-    oldMouseY = getY;
-    view_rotx += thetaX;
-    view_roty += thetaY;
+static void keyboard(unsigned char key,int x,int y)
+{
+    if (zoom < -40){
+            zoom = -40;
+         }
+    if (zoom > 60){
+            zoom = 60;
+         }
+	switch(key)
+	{
+    case '74': // J
+        sudut_z += 15.0f;
+        sumbu_z.vectorRotation(sumbu_y, sudut_z - sudut_z2); //memutar vector sumbu z terhadap x (target, patokan)
+        sumbu_x.vectorRotation(sumbu_y, sudut_z - sudut_z2);
+        cameraRotation(sumbu_y, sudut_z - sudut_z2); // look at
+        sudut_z2 = sudut_z;
+        break;
+    case 'i': /* zoom in */
+         zoom = zoom  - 20.0f;
+         glViewport(0, 0, 1024, 768);
+         glMatrixMode(GL_PROJECTION);
+         glLoadIdentity();
+         gluPerspective(80.0f + zoom,1024/768,2.0f,100.0f);
+         glMatrixMode(GL_MODELVIEW);
+         glLoadIdentity();
+        break;
+    case 'o': /* zoom out */
+         zoom = zoom  + 20.0f;
+         glViewport(0, 0, 1024, 768);
+         glMatrixMode(GL_PROJECTION);
+         glLoadIdentity();
+         gluPerspective(80.0f + zoom,1024/768,2.0f,100.0f);
+         glMatrixMode(GL_MODELVIEW);
+         glLoadIdentity();
+        break;
+    case '0': /* exit */
+	     if (twist==false){
+            twist = true;
+            twistR = true;
+            twistG = true;
+            twistB = true;
+            twistM = true;
+            twistJ = true;
+            twistS = true;
+            twistU = true;
+            twistN = true;
+            twistP = true;
+	     }else if(twist == true){
+            twist = false;
+	     }
+        break;
+	case '1': /* exit */
+	     if (twistR==false){
+            twistR = true;
+	     }else if(twistR == true){
+            twistR = false;
+	     }
+        break;
+	case '2': /* exit */
+	     if (twistG==false){
+            twistG = true;
+	     }else if(twistG == true){
+            twistG = false;
+	     }
+        break;
+    case '3': /* exit */
+	     if (twistB==false){
+            twistB = true;
+	     }else if(twistB == true){
+            twistB = false;
+	     }
+        break;
+    case '4': /* exit */
+	     if (twistM==false){
+            twistM = true;
+	     }else if(twistM == true){
+            twistM = false;
+	     }
+        break;
+    case '5': /* exit */
+	     if (twistJ==false){
+            twistJ = true;
+	     }else if(twistJ == true){
+            twistJ = false;
+	     }
+        break;
+    case '6': /* exit */
+	     if (twistS==false){
+            twistS = true;
+	     }else if(twistS == true){
+            twistS = false;
+	     }
+        break;
+    case '7': /* exit */
+	     if (twistU==false){
+            twistU = true;
+	     }else if(twistU == true){
+            twistU = false;
+	     }
+        break;
+    case '8': /* exit */
+	     if (twistN==false){
+            twistN = true;
+	     }else if(twistN == true){
+            twistN = false;
+	     }
+        break;
+    case '9': /* exit */
+	     if (twistP==false){
+            twistP = true;
+	     }else if(twistP == true){
+            twistP = false;
+	     }
+        break;
+    case 'e': /* exit */
+	     exit(0);
+        break;
+	default:
+		break;
+	}
+	glutPostRedisplay();
 }
 
-int main(int argc, char **argv){
+
+int main(int argc, char *argv[])
+{
+    int width = 1024;
+    int height = 768;
     glutInit(&argc, argv);
-    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
-    glutInitWindowSize(640, 480);
-    glutInitWindowPosition(50, 50);
-    glutCreateWindow("TES BUTA WARNA");
+    glutInitWindowSize(width,height);
+    glutInitWindowPosition(10,10);
+    glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
+    glutCreateWindow("Tes Buta Warna");
     glutDisplayFunc(display);
-    glutReshapeFunc(reshape);
-
-initGL();
-    glutMouseFunc(mouseControl);
-    glutMotionFunc(mouseMotion);
-    glutTimerFunc(0, timer, 0);
+    glutKeyboardFunc(keyboard);
+    glutIdleFunc(idle);
+    initGL(width, height);
     glutMainLoop();
     return 0;
 }
