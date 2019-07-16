@@ -5,8 +5,8 @@
 #include <math.h>
 #include <iostream>
 
-GLUquadric *sun;
-GLuint sunTexture;
+GLUquadric *bola;
+GLuint bolaTexture;
 
 int zoom = 0;
 boolean twist = true, twistR= true, twistG= true, twistB= true, twistM= true, twistJ= true, twistS= true, twistN= true, twistU= true, twistP= true;
@@ -86,8 +86,8 @@ void initGL(int width, int height)
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     glOrtho(-1.0, 1.0, -1.0, 1.0, -2.0, 2.0);
-    sun = gluNewQuadric();
-    gluQuadricTexture( sun, GL_TRUE);
+    bola = gluNewQuadric();
+    gluQuadricTexture( bola, GL_TRUE);
     gluPerspective(80.0f, (GLfloat)width/(GLfloat)height, 2.0f, 100.0f);
     glMatrixMode(GL_MODELVIEW);
 
@@ -121,42 +121,42 @@ static float globRotP = 225.0f;
 
     glPushMatrix();
     glEnable ( GL_TEXTURE_2D );
-    glBindTexture ( GL_TEXTURE_2D, sunTexture);
+    glBindTexture ( GL_TEXTURE_2D, bolaTexture);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTranslatef(0.0f,0.0f,-5);
     glTranslatef(0.0f,0.0f,0.0f);
-    gluSphere(sun, 7, 20, 20);
+    gluSphere(bola, 7, 20, 20);
     glPopMatrix();
 
     glPushMatrix();
     glEnable ( GL_TEXTURE_2D );
-    glBindTexture ( GL_TEXTURE_2D, sunTexture);
+    glBindTexture ( GL_TEXTURE_2D, bolaTexture);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTranslatef(0.0f,0.0f,-5);
     glTranslatef(30.0f,0.0f,0.0f);
-    gluSphere(sun, 7, 20, 20);
+    gluSphere(bola, 7, 20, 20);
     glPopMatrix();
 
     glPushMatrix();
     glEnable ( GL_TEXTURE_2D );
-    glBindTexture ( GL_TEXTURE_2D, sunTexture);
+    glBindTexture ( GL_TEXTURE_2D, bolaTexture);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTranslatef(0.0f,0.0f,-5);
     glTranslatef(60.0f,0.0f,0.0f);
-    gluSphere(sun, 7, 20, 20);
+    gluSphere(bola, 7, 20, 20);
     glPopMatrix();
 
     glPushMatrix();
     glEnable ( GL_TEXTURE_2D );
-    glBindTexture ( GL_TEXTURE_2D, sunTexture);
+    glBindTexture ( GL_TEXTURE_2D, bolaTexture);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTranslatef(0.0f,0.0f,-5);
     glTranslatef(90.0f,0.0f,0.0f);
-    glutSolidSphere(7,30,30);
+    gluSphere(bola, 7, 20, 20);
     glPopMatrix();
 
 if (twist == true){
