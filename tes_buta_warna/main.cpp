@@ -5,9 +5,6 @@
 #include <math.h>
 #include <iostream>
 
-GLUquadric *bola;
-GLuint bolaTexture;
-
 int zoom = 0;
 boolean twist = true, twistR= true, twistG= true, twistB= true, twistM= true, twistJ= true, twistS= true, twistN= true, twistU= true, twistP= true;
 float Cx = 0.0f, Cy = 2.5f, Cz = 10.0f;
@@ -19,6 +16,22 @@ float sudut_z2 = 0.0f;
 float sudut_y = 0.0f;
 float sudut_y2 = 0.0f;
 
+GLUquadric *bola;
+GLuint bolaTexture;
+
+GLuint loadTexture(Image* image) {
+
+    GLuint textureId;
+
+    glGenTextures(1, &textureId);
+
+    glBindTexture(GL_TEXTURE_2D, textureId);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, image->width, image->height, 0, GL_RGB, GL_UNSIGNED_BYTE, image->pixels);
+
+    return textureId;
+
+}
 
 float toRadians(float angle){
     return angle * M_PI / 180;
@@ -88,6 +101,9 @@ void initGL(int width, int height)
     glOrtho(-1.0, 1.0, -1.0, 1.0, -2.0, 2.0);
     bola = gluNewQuadric();
     gluQuadricTexture( bola, GL_TRUE);
+    Image* bolaImage=loadBMP("image2.bmp");
+    bolaTexture1 = loadTexture(bolaImage1);
+
     gluPerspective(80.0f, (GLfloat)width/(GLfloat)height, 2.0f, 100.0f);
     glMatrixMode(GL_MODELVIEW);
 
