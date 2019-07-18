@@ -23,7 +23,11 @@ float sudut_z2 = 0.0f;
 float sudut_y = 0.0f;
 float sudut_y2 = 0.0f;
 
+char jawaban[4] = {'6', '1', '5', '9'}
+int posisi=0;
 
+GLUquadric *bola;
+GLuint bolaTexture;
 
 GLuint loadTexture(Image* image) {
 
@@ -235,6 +239,39 @@ static void keyboard(unsigned char key,int x,int y)
          }
 	switch(key)
 	{
+
+case '1':
+    if ('1' == jawaban[posisi]){
+        posisi = posisi += 1;
+        Lz -= 1;
+        Lx += 1;
+    }
+    break;
+
+case '2':
+    if ('2' == jawaban[posisi]){
+        posisi = posisi += 1;
+        Lz -= 1;
+        Lx += 1;
+    }
+    break;
+
+case '3':
+    if ('3' == jawaban[posisi]){
+        posisi = posisi += 1;
+        Lz -= 1;
+        Lx += 1;
+    }
+    break;
+
+case '4':
+    if ('4' == jawaban[posisi]){
+        posisi = posisi+ = 1;
+        Lz -= 1;
+        Lx += 1;
+    }
+    break;
+
     case 'f':
         Lz -= 1;
         Lx += 1;
