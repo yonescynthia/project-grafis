@@ -19,7 +19,7 @@ float sudut_y2 = 0.0f;
 GLUquadric *bola;
 GLuint bolaTexture;
 
-char jawaban[4] = {'6', '1', '5', '9'};
+char jawaban[4] = {'1', '2', '3', '4'};
 int posisi=0;
 
 
@@ -203,10 +203,10 @@ static void keyboard(unsigned char key,int x,int y)
 	switch(key)
 	{
 
-/*
+
 case '1':
     if ('1' == jawaban[posisi]){
-        posisi = posisi += 1;
+        posisi += 1;
         Lz -= 1;
         Lx += 1;
     }
@@ -214,7 +214,7 @@ case '1':
 
 case '2':
     if ('2' == jawaban[posisi]){
-        posisi = posisi += 1;
+        posisi += 1;
         Lz -= 1;
         Lx += 1;
     }
@@ -222,7 +222,7 @@ case '2':
 
 case '3':
     if ('3' == jawaban[posisi]){
-        posisi = posisi += 1;
+        posisi += 1;
         Lz -= 1;
         Lx += 1;
     }
@@ -230,7 +230,7 @@ case '3':
 
 case '4':
     if ('4' == jawaban[posisi]){
-        posisi = posisi+ = 1;
+        posisi += 1;
         Lz -= 1;
         Lx += 1;
     }
@@ -254,14 +254,14 @@ case '4':
     case 's':
         Cz = Cz +1;
         break;
-    case 'd':
+   /* case 'd':
         Cx += 1;
         Lx += 1;
-        break;
+        break;*/
     case 'w':
         Cz = Cz -1;
         break;
-*/
+
     case 'e': /* exit */
 	     exit(0);
         break;
