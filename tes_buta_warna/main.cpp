@@ -4,6 +4,13 @@
 #include <stdio.h>
 #include <math.h>
 #include <iostream>
+#include "imageloader.h"
+
+GLUquadric *bola;
+GLuint bolaTexture;
+
+GLUquadric *bola2;
+GLuint bolaTexture2;
 
 int zoom = 0;
 boolean twist = true, twistR= true, twistG= true, twistB= true, twistM= true, twistJ= true, twistS= true, twistN= true, twistU= true, twistP= true;
@@ -16,8 +23,7 @@ float sudut_z2 = 0.0f;
 float sudut_y = 0.0f;
 float sudut_y2 = 0.0f;
 
-GLUquadric *bola;
-GLuint bolaTexture;
+
 
 GLuint loadTexture(Image* image) {
 
@@ -99,10 +105,16 @@ void initGL(int width, int height)
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     glOrtho(-1.0, 1.0, -1.0, 1.0, -2.0, 2.0);
+
     bola = gluNewQuadric();
     gluQuadricTexture( bola, GL_TRUE);
-    Image* bolaImage=loadBMP("image2.bmp");
-    bolaTexture1 = loadTexture(bolaImage1);
+    Image* bolaImage=loadBMP("./image2.bmp");
+    bolaTexture = loadTexture(bolaImage);
+
+    bola2 = gluNewQuadric();
+    gluQuadricTexture( bola2, GL_TRUE);
+    Image* bolaImage2=loadBMP("./earth.bmp");
+    bolaTexture2 = loadTexture(bolaImage2);
 
     gluPerspective(80.0f, (GLfloat)width/(GLfloat)height, 2.0f, 100.0f);
     glMatrixMode(GL_MODELVIEW);
