@@ -29,10 +29,12 @@ float sudut_z2 = 0.0f;
 float sudut_y = 0.0f;
 float sudut_y2 = 0.0f;
 
-char jawaban[4] = {'6', '1', '5', '9'};
-int posisi=0;
 
+char jawaban[4] = {'1', '2', '3', '4'};
+int posisi = 0;
 
+GLUquadric *bola;
+GLuint bolaTexture;
 
 GLuint loadTexture(Image* image) {
 
@@ -117,8 +119,17 @@ void initGL(int width, int height)
 
      bola = gluNewQuadric();
     gluQuadricTexture( bola, GL_TRUE);
+
+    //Image* bolaImage=loadBMP("./image2.bmp");
+    //bolaTexture = loadTexture(bolaImage);
+
+    bola2 = gluNewQuadric();
+    gluQuadricTexture( bola2, GL_TRUE);
+    //Image* bolaImage2=loadBMP("./earth.bmp");
+    //bolaTexture2 = loadTexture(bolaImage2);
+
     Image* bolaImage=loadBMP("./image2.bmp");
-    bolaTexture = loadTexture(bolaImage);
+    bolaTexture1 = loadTexture(bolaImage);
 
     bola2 = gluNewQuadric();
     gluQuadricTexture( bola2, GL_TRUE);
@@ -223,10 +234,11 @@ static void keyboard(unsigned char key,int x,int y)
          }
 	switch(key)
 	{
-/*
+
+
 case '1':
     if ('1' == jawaban[posisi]){
-        posisi = posisi += 1;
+        posisi += 1;
         Lz -= 1;
         Lx += 1;
     }
@@ -234,7 +246,7 @@ case '1':
 
 case '2':
     if ('2' == jawaban[posisi]){
-        posisi = posisi += 1;
+        posisi += 1;
         Lz -= 1;
         Lx += 1;
     }
@@ -242,7 +254,7 @@ case '2':
 
 case '3':
     if ('3' == jawaban[posisi]){
-        posisi = posisi += 1;
+        posisi += 1;
         Lz -= 1;
         Lx += 1;
     }
@@ -250,11 +262,12 @@ case '3':
 
 case '4':
     if ('4' == jawaban[posisi]){
-        posisi = posisi+ = 1;
+        posisi += 1;
         Lz -= 1;
         Lx += 1;
     }
     break;
+
 
     case 'f':
         Lz -= 1;
@@ -280,7 +293,6 @@ case '4':
     case 'w':
         Cz = Cz -1;
         break;
-*/
     case 'e': /* exit */
 	     exit(0);
         break;
