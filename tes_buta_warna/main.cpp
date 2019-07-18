@@ -4,6 +4,13 @@
 #include <stdio.h>
 #include <math.h>
 #include <iostream>
+#include "imageloader.h"
+
+GLUquadric *bola;
+GLuint bolaTexture;
+
+GLUquadric *bola2;
+GLuint bolaTexture2;
 
 int zoom = 0;
 boolean twist = true, twistR= true, twistG= true, twistB= true, twistM= true, twistJ= true, twistS= true, twistN= true, twistU= true, twistP= true;
@@ -16,11 +23,16 @@ float sudut_z2 = 0.0f;
 float sudut_y = 0.0f;
 float sudut_y2 = 0.0f;
 
-char jawaban[4] = {'6', '1', '5', '9'}
+<<<<<<< HEAD
+char jawaban[4] = {'1', '2', '3', '4'};
+int posisi = 0;
+
+=======
+char jawaban[4] = {'6', '1', '5', '9'};
 int posisi=0;
 
-GLUquadric *bola;
-GLuint bolaTexture;
+
+>>>>>>> 0e4f88e9ba5f7e2e458ae3ed1413aca1b5ed2e53
 
 GLuint loadTexture(Image* image) {
 
@@ -102,10 +114,16 @@ void initGL(int width, int height)
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     glOrtho(-1.0, 1.0, -1.0, 1.0, -2.0, 2.0);
+
     bola = gluNewQuadric();
     gluQuadricTexture( bola, GL_TRUE);
-    Image* bolaImage=loadBMP("image2.bmp");
-    bolaTexture1 = loadTexture(bolaImage1);
+    //Image* bolaImage=loadBMP("./image2.bmp");
+    //bolaTexture = loadTexture(bolaImage);
+
+    bola2 = gluNewQuadric();
+    gluQuadricTexture( bola2, GL_TRUE);
+    //Image* bolaImage2=loadBMP("./earth.bmp");
+    //bolaTexture2 = loadTexture(bolaImage2);
 
     gluPerspective(80.0f, (GLfloat)width/(GLfloat)height, 2.0f, 100.0f);
     glMatrixMode(GL_MODELVIEW);
@@ -126,16 +144,6 @@ gluLookAt(Cx, Cy, Cz,
             Lx, Ly, Lz,
             0, 1, 0);
 
-static float axisRot = 0.0f;
-static float globRotR = 0.0f;
-static float globRotG = 50.0f;
-static float globRotB = 75.0f;
-static float globRotM = 100.0f;
-static float globRotJ = 125.0f;
-static float globRotS = 150.0f;
-static float globRotU = 175.0f;
-static float globRotN = 200.0f;
-static float globRotP = 225.0f;
 
 
     glPushMatrix();
@@ -178,28 +186,6 @@ static float globRotP = 225.0f;
     gluSphere(bola, 7, 20, 20);
     glPopMatrix();
 
-if (twist == true){
-    axisRot += 0.1f; axisRot=fmod(axisRot, 360.0f);
-    if (twistR == true){
-        globRotR += 2.0f; globRotR=fmod(globRotR, 360.0f);
-    }if (twistG == true){
-        globRotG += 1.7f; globRotG=fmod(globRotG, 360.0f);
-    }if (twistB == true){
-        globRotB += 1.3f; globRotB=fmod(globRotB, 360.0f);
-    }if (twistM == true){
-        globRotM += 1.0f; globRotM=fmod(globRotM, 360.0f);
-    }if (twistJ == true){
-        globRotJ += 0.7f; globRotJ=fmod(globRotJ, 360.0f);
-    }if (twistS == true){
-        globRotS += 0.5f; globRotS=fmod(globRotS, 360.0f);
-    }if (twistU == true){
-        globRotU += 0.3f; globRotU=fmod(globRotU, 360.0f);
-    }if (twistN == true){
-        globRotN += 0.2f; globRotN=fmod(globRotN, 360.0f);
-    }if (twistP == true){
-        globRotP += 0.1f; globRotP=fmod(globRotP, 360.0f);
-    }
-}
 
    glPushMatrix();
       glTranslatef(0.0,0.0,1.0);
@@ -226,10 +212,10 @@ static void keyboard(unsigned char key,int x,int y)
          }
 	switch(key)
 	{
-
+/*
 case '1':
     if ('1' == jawaban[posisi]){
-        posisi = posisi += 1;
+        posisi += 1;
         Lz -= 1;
         Lx += 1;
     }
@@ -237,7 +223,7 @@ case '1':
 
 case '2':
     if ('2' == jawaban[posisi]){
-        posisi = posisi += 1;
+        posisi += 1;
         Lz -= 1;
         Lx += 1;
     }
@@ -245,7 +231,7 @@ case '2':
 
 case '3':
     if ('3' == jawaban[posisi]){
-        posisi = posisi += 1;
+        posisi += 1;
         Lz -= 1;
         Lx += 1;
     }
@@ -253,7 +239,7 @@ case '3':
 
 case '4':
     if ('4' == jawaban[posisi]){
-        posisi = posisi+ = 1;
+        posisi += 1;
         Lz -= 1;
         Lx += 1;
     }
@@ -283,7 +269,7 @@ case '4':
     case 'w':
         Cz = Cz -1;
         break;
-
+*/
     case 'e': /* exit */
 	     exit(0);
         break;
