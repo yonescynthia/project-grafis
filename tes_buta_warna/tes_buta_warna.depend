@@ -1,11 +1,12 @@
 # depslib dependency file v1.0
-1563274628 source:c:\xampp\htdocs\project-grafis\tes_buta_warna\main.cpp
+1563441959 source:c:\xampp\htdocs\project-grafis\tes_buta_warna\main.cpp
 	<windows.h>
 	<GL/glut.h>
 	<stdlib.h>
 	<stdio.h>
 	<math.h>
 	<iostream>
+	"imageloader.h"
 
 1301111162 c:\program files (x86)\codeblocks\mingw\include\windows.h
 	<winresrc.h>

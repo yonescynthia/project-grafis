@@ -23,11 +23,10 @@ float sudut_z2 = 0.0f;
 float sudut_y = 0.0f;
 float sudut_y2 = 0.0f;
 
-char jawaban[4] = {'6', '1', '5', '9'}
+char jawaban[4] = {'6', '1', '5', '9'};
 int posisi=0;
 
-GLUquadric *bola;
-GLuint bolaTexture;
+
 
 GLuint loadTexture(Image* image) {
 
@@ -139,16 +138,6 @@ gluLookAt(Cx, Cy, Cz,
             Lx, Ly, Lz,
             0, 1, 0);
 
-static float axisRot = 0.0f;
-static float globRotR = 0.0f;
-static float globRotG = 50.0f;
-static float globRotB = 75.0f;
-static float globRotM = 100.0f;
-static float globRotJ = 125.0f;
-static float globRotS = 150.0f;
-static float globRotU = 175.0f;
-static float globRotN = 200.0f;
-static float globRotP = 225.0f;
 
 
     glPushMatrix();
@@ -191,28 +180,6 @@ static float globRotP = 225.0f;
     gluSphere(bola, 7, 20, 20);
     glPopMatrix();
 
-if (twist == true){
-    axisRot += 0.1f; axisRot=fmod(axisRot, 360.0f);
-    if (twistR == true){
-        globRotR += 2.0f; globRotR=fmod(globRotR, 360.0f);
-    }if (twistG == true){
-        globRotG += 1.7f; globRotG=fmod(globRotG, 360.0f);
-    }if (twistB == true){
-        globRotB += 1.3f; globRotB=fmod(globRotB, 360.0f);
-    }if (twistM == true){
-        globRotM += 1.0f; globRotM=fmod(globRotM, 360.0f);
-    }if (twistJ == true){
-        globRotJ += 0.7f; globRotJ=fmod(globRotJ, 360.0f);
-    }if (twistS == true){
-        globRotS += 0.5f; globRotS=fmod(globRotS, 360.0f);
-    }if (twistU == true){
-        globRotU += 0.3f; globRotU=fmod(globRotU, 360.0f);
-    }if (twistN == true){
-        globRotN += 0.2f; globRotN=fmod(globRotN, 360.0f);
-    }if (twistP == true){
-        globRotP += 0.1f; globRotP=fmod(globRotP, 360.0f);
-    }
-}
 
    glPushMatrix();
       glTranslatef(0.0,0.0,1.0);
@@ -239,7 +206,7 @@ static void keyboard(unsigned char key,int x,int y)
          }
 	switch(key)
 	{
-
+/*
 case '1':
     if ('1' == jawaban[posisi]){
         posisi = posisi += 1;
@@ -296,7 +263,7 @@ case '4':
     case 'w':
         Cz = Cz -1;
         break;
-
+*/
     case 'e': /* exit */
 	     exit(0);
         break;
