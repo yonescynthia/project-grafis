@@ -1,11 +1,16 @@
 # depslib dependency file v1.0
-1563274628 source:c:\xampp\htdocs\project-grafis\tes_buta_warna\main.cpp
+<<<<<<< HEAD
+1563442798 source:d:\6\grafis\project-grafis\tes_buta_warna\main.cpp
+=======
+1563441959 source:c:\xampp\htdocs\project-grafis\tes_buta_warna\main.cpp
+>>>>>>> 0e4f88e9ba5f7e2e458ae3ed1413aca1b5ed2e53
 	<windows.h>
 	<GL/glut.h>
 	<stdlib.h>
 	<stdio.h>
 	<math.h>
 	<iostream>
+	"imageloader.h"
 
 1301111162 c:\program files (x86)\codeblocks\mingw\include\windows.h
 	<winresrc.h>
@@ -211,6 +216,26 @@
 1301111156 c:\program files (x86)\codeblocks\mingw\include\oleidl.h
 	<objfwd.h>
 
+1426324528 c:\program files (x86)\codeblocks\mingw\include\gl\glut.h
+	"freeglut_std.h"
+
+1426324528 c:\program files (x86)\codeblocks\mingw\include\gl\freeglut_std.h
+	<windows.h>
+	<EGL/egl.h>
+	<GLES/gl.h>
+	<GLES2/gl2.h>
+	<OpenGL/gl.h>
+	<OpenGL/glu.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<stdlib.h>
+
+1301111164 c:\program files (x86)\codeblocks\mingw\include\gl\gl.h
+
+1301111164 c:\program files (x86)\codeblocks\mingw\include\gl\glu.h
+	<stddef.h>
+	<GL/gl.h>
+
 1341006776 c:\program files (x86)\codeblocks\mingw\include\stdio.h
 	<_mingw.h>
 	<stddef.h>
@@ -221,24 +246,10 @@
 	<_mingw.h>
 	<stddef.h>
 
-983676786 c:\program files (x86)\codeblocks\mingw\include\gl\glut.h
-	<windows.h>
-	<stdlib.h>
-	<GL/gl.h>
-	<GL/glu.h>
-
-1301111164 c:\program files (x86)\codeblocks\mingw\include\gl\gl.h
-
-1301111164 c:\program files (x86)\codeblocks\mingw\include\gl\glu.h
-	<stddef.h>
-	<GL/gl.h>
-
-1563246452 c:\xampp\htdocs\project-grafis\tes_buta_warna\imageloader.h
-
 1341006774 c:\program files (x86)\codeblocks\mingw\include\math.h
 	<_mingw.h>
 
-1563364379 source:c:\xampp\htdocs\project-grafis\tes_buta_warna\src\imageloader.cpp
+1563431272 source:d:\6\grafis\project-grafis\tes_buta_warna\src\imageloader.cpp
 	<assert.h>
 	<fstream>
 	"imageloader.h"
@@ -246,5 +257,7 @@
 1341006770 c:\program files (x86)\codeblocks\mingw\include\assert.h
 	<_mingw.h>
 
-1563364551 c:\xampp\htdocs\project-grafis\tes_buta_warna\include\imageloader.h
+1563431271 d:\6\grafis\project-grafis\tes_buta_warna\include\imageloader.h
+
+1561988433 d:\6\grafis\project-grafis\tes_buta_warna\imageloader.h
 
