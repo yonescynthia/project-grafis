@@ -1,9 +1,18 @@
 # depslib dependency file v1.0
-<<<<<<< HEAD
+337854532 }
+
 1563442798 source:d:\6\grafis\project-grafis\tes_buta_warna\main.cpp
-=======
-1563441959 source:c:\xampp\htdocs\project-grafis\tes_buta_warna\main.cpp
->>>>>>> 0e4f88e9ba5f7e2e458ae3ed1413aca1b5ed2e53
+
+1563445581 source:c:\xampp\htdocs\project-grafis\tes_buta_warna\main.cpp
+	<windows.h>
+	<GL/glut.h>
+	<stdlib.h>
+	<stdio.h>
+	<math.h>
+	<iostream>
+	"imageloader.h"
+
+1563441959 f88e9ba5f7e2e458ae3ed1413aca1b5ed2e53
 	<windows.h>
 	<GL/glut.h>
 	<stdlib.h>
@@ -216,8 +225,11 @@
 1301111156 c:\program files (x86)\codeblocks\mingw\include\oleidl.h
 	<objfwd.h>
 
-1426324528 c:\program files (x86)\codeblocks\mingw\include\gl\glut.h
-	"freeglut_std.h"
+983676786 c:\program files (x86)\codeblocks\mingw\include\gl\glut.h
+	<windows.h>
+	<stdlib.h>
+	<GL/gl.h>
+	<GL/glu.h>
 
 1426324528 c:\program files (x86)\codeblocks\mingw\include\gl\freeglut_std.h
 	<windows.h>
@@ -260,4 +272,13 @@
 1563431271 d:\6\grafis\project-grafis\tes_buta_warna\include\imageloader.h
 
 1561988433 d:\6\grafis\project-grafis\tes_buta_warna\imageloader.h
+
+1563246452 c:\xampp\htdocs\project-grafis\tes_buta_warna\imageloader.h
+
+1563364379 source:c:\xampp\htdocs\project-grafis\tes_buta_warna\src\imageloader.cpp
+	<assert.h>
+	<fstream>
+	"imageloader.h"
+
+1563364551 c:\xampp\htdocs\project-grafis\tes_buta_warna\include\imageloader.h
 
