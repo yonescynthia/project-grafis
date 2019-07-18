@@ -12,6 +12,12 @@ GLuint bolaTexture;
 GLUquadric *bola2;
 GLuint bolaTexture2;
 
+GLUquadric *bola3;
+GLuint bolaTexture3;
+
+GLUquadric *bola4;
+GLuint bolaTexture4;
+
 int zoom = 0;
 boolean twist = true, twistR= true, twistG= true, twistB= true, twistM= true, twistJ= true, twistS= true, twistN= true, twistU= true, twistP= true;
 float Cx = 0.0f, Cy = 2.5f, Cz = 10.0f;
@@ -109,15 +115,26 @@ void initGL(int width, int height)
     glLoadIdentity();
     glOrtho(-1.0, 1.0, -1.0, 1.0, -2.0, 2.0);
 
-    bola = gluNewQuadric();
+     bola = gluNewQuadric();
     gluQuadricTexture( bola, GL_TRUE);
     Image* bolaImage=loadBMP("./image2.bmp");
     bolaTexture = loadTexture(bolaImage);
 
     bola2 = gluNewQuadric();
     gluQuadricTexture( bola2, GL_TRUE);
-    Image* bolaImage2=loadBMP("./earth.bmp");
+    Image* bolaImage2=loadBMP("./image6.bmp");
     bolaTexture2 = loadTexture(bolaImage2);
+
+    bola3 = gluNewQuadric();
+    gluQuadricTexture( bola3, GL_TRUE);
+    Image* bolaImage3=loadBMP("./image8.bmp");
+    bolaTexture3 = loadTexture(bolaImage3);
+
+    bola4 = gluNewQuadric();
+    gluQuadricTexture( bola4, GL_TRUE);
+    Image* bolaImage4=loadBMP("./image7.bmp");
+    bolaTexture4 = loadTexture(bolaImage4);
+
 
     gluPerspective(80.0f, (GLfloat)width/(GLfloat)height, 2.0f, 100.0f);
     glMatrixMode(GL_MODELVIEW);
@@ -152,7 +169,7 @@ gluLookAt(Cx, Cy, Cz,
 
     glPushMatrix();
     glEnable ( GL_TEXTURE_2D );
-    glBindTexture ( GL_TEXTURE_2D, bolaTexture);
+    glBindTexture ( GL_TEXTURE_2D, bolaTexture2);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTranslatef(0.0f,0.0f,-5);
@@ -162,7 +179,7 @@ gluLookAt(Cx, Cy, Cz,
 
     glPushMatrix();
     glEnable ( GL_TEXTURE_2D );
-    glBindTexture ( GL_TEXTURE_2D, bolaTexture);
+    glBindTexture ( GL_TEXTURE_2D, bolaTexture3);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTranslatef(0.0f,0.0f,-5);
@@ -172,7 +189,7 @@ gluLookAt(Cx, Cy, Cz,
 
     glPushMatrix();
     glEnable ( GL_TEXTURE_2D );
-    glBindTexture ( GL_TEXTURE_2D, bolaTexture);
+    glBindTexture ( GL_TEXTURE_2D, bolaTexture4);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTranslatef(0.0f,0.0f,-5);
