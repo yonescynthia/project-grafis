@@ -23,16 +23,12 @@ float sudut_z2 = 0.0f;
 float sudut_y = 0.0f;
 float sudut_y2 = 0.0f;
 
-<<<<<<< HEAD
+
 char jawaban[4] = {'1', '2', '3', '4'};
 int posisi = 0;
 
-=======
-char jawaban[4] = {'6', '1', '5', '9'};
-int posisi=0;
-
-
->>>>>>> 0e4f88e9ba5f7e2e458ae3ed1413aca1b5ed2e53
+GLUquadric *bola;
+GLuint bolaTexture;
 
 GLuint loadTexture(Image* image) {
 
@@ -117,6 +113,7 @@ void initGL(int width, int height)
 
     bola = gluNewQuadric();
     gluQuadricTexture( bola, GL_TRUE);
+
     //Image* bolaImage=loadBMP("./image2.bmp");
     //bolaTexture = loadTexture(bolaImage);
 
@@ -124,6 +121,14 @@ void initGL(int width, int height)
     gluQuadricTexture( bola2, GL_TRUE);
     //Image* bolaImage2=loadBMP("./earth.bmp");
     //bolaTexture2 = loadTexture(bolaImage2);
+
+    Image* bolaImage=loadBMP("./image2.bmp");
+    bolaTexture1 = loadTexture(bolaImage);
+
+    bola2 = gluNewQuadric();
+    gluQuadricTexture( bola2, GL_TRUE);
+    Image* bolaImage2=loadBMP("./earth.bmp");
+    bolaTexture2 = loadTexture(bolaImage2);
 
     gluPerspective(80.0f, (GLfloat)width/(GLfloat)height, 2.0f, 100.0f);
     glMatrixMode(GL_MODELVIEW);
@@ -212,7 +217,8 @@ static void keyboard(unsigned char key,int x,int y)
          }
 	switch(key)
 	{
-/*
+
+
 case '1':
     if ('1' == jawaban[posisi]){
         posisi += 1;
@@ -245,6 +251,7 @@ case '4':
     }
     break;
 
+
     case 'f':
         Lz -= 1;
         Lx += 1;
@@ -269,7 +276,6 @@ case '4':
     case 'w':
         Cz = Cz -1;
         break;
-*/
     case 'e': /* exit */
 	     exit(0);
         break;
