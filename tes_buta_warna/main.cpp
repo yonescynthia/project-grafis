@@ -30,19 +30,9 @@ float sudut_y = 0.0f;
 float sudut_y2 = 0.0f;
 
 
-GLUquadric *bola;
-GLuint bolaTexture;
-
 char jawaban[4] = {'1', '2', '3', '4'};
 int posisi=0;
 
-
-
-char jawaban[4] = {'1', '2', '3', '4'};
-int posisi = 0;
-
-GLUquadric *bola;
-GLuint bolaTexture;
 
 GLuint loadTexture(Image* image) {
 
@@ -136,8 +126,10 @@ void initGL(int width, int height)
     //Image* bolaImage2=loadBMP("./earth.bmp");
     //bolaTexture2 = loadTexture(bolaImage2);
 
+    bola = gluNewQuadric();
+    gluQuadricTexture( bola, GL_TRUE);
     Image* bolaImage=loadBMP("./image2.bmp");
-    bolaTexture1 = loadTexture(bolaImage);
+    bolaTexture = loadTexture(bolaImage);
 
     bola2 = gluNewQuadric();
     gluQuadricTexture( bola2, GL_TRUE);
@@ -166,11 +158,13 @@ Vector sumbu_z, sumbu_x, sumbu_y;
 float Ex = 0 ,Ey = 0,Ez,Cex,Cey,Cez;
 static void display(void)
 {
-glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
-glMatrixMode(GL_MODELVIEW);
+    static float axisRot = 0.0f;
+    static float rotBola1 = 0.0f;
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+    glMatrixMode(GL_MODELVIEW);
 
-glLoadIdentity();
-gluLookAt(Cx, Cy, Cz,
+    glLoadIdentity();
+    gluLookAt(Cx, Cy, Cz,
             Lx, Ly, Lz,
             0, 1, 0);
 
@@ -182,6 +176,7 @@ gluLookAt(Cx, Cy, Cz,
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTranslatef(0.0f,0.0f,-5);
+    glRotatef(270,1,0,0);
     glTranslatef(0.0f,0.0f,0.0f);
     gluSphere(bola, 7, 20, 20);
     glPopMatrix();
@@ -192,6 +187,7 @@ gluLookAt(Cx, Cy, Cz,
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTranslatef(0.0f,0.0f,-5);
+     glRotatef(270,1,0,0);
     glTranslatef(30.0f,0.0f,0.0f);
     gluSphere(bola, 7, 20, 20);
     glPopMatrix();
@@ -202,6 +198,7 @@ gluLookAt(Cx, Cy, Cz,
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTranslatef(0.0f,0.0f,-5);
+     glRotatef(270,1,0,0);
     glTranslatef(60.0f,0.0f,0.0f);
     gluSphere(bola, 7, 20, 20);
     glPopMatrix();
@@ -212,6 +209,7 @@ gluLookAt(Cx, Cy, Cz,
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTranslatef(0.0f,0.0f,-5);
+     glRotatef(270,1,0,0);
     glTranslatef(90.0f,0.0f,0.0f);
     gluSphere(bola, 7, 20, 20);
     glPopMatrix();
@@ -221,6 +219,8 @@ gluLookAt(Cx, Cy, Cz,
       glTranslatef(0.0,0.0,1.0);
       glScalef(0.5,0.5,0.5);
    glPopMatrix();
+
+   axisRot += 0.1f; axisRot=fmod(axisRot, 360.0f);
 
 glDisable ( GL_TEXTURE_2D );
 
@@ -247,36 +247,36 @@ static void keyboard(unsigned char key,int x,int y)
 case '1':
     if ('1' == jawaban[posisi]){
         posisi += 1;
-        Lz -= 1;
-        Lx += 1;
+        Cx += 30;
+        Lx += 30;
     }
     break;
 
 case '2':
     if ('2' == jawaban[posisi]){
         posisi += 1;
-        Lz -= 1;
-        Lx += 1;
+        Cx += 30;
+        Lx += 30;
     }
     break;
 
 case '3':
     if ('3' == jawaban[posisi]){
         posisi += 1;
-        Lz -= 1;
-        Lx += 1;
+        Cx += 30;
+        Lx += 30;
     }
     break;
 
 case '4':
     if ('4' == jawaban[posisi]){
         posisi += 1;
-        Lz -= 1;
-        Lx += 1;
+        Cx += 30;
+        Lx += 30;
     }
     break;
 
-
+/*
     case 'f':
         Lz -= 1;
         Lx += 1;
@@ -294,14 +294,14 @@ case '4':
     case 's':
         Cz = Cz +1;
         break;
-   /* case 'd':
+    case 'd':
         Cx += 1;
         Lx += 1;
-        break;*/
+        break;
     case 'w':
         Cz = Cz -1;
         break;
-
+*/
     case 'e': /* exit */
 	     exit(0);
         break;
