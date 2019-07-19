@@ -30,7 +30,7 @@ float sudut_y = 0.0f;
 float sudut_y2 = 0.0f;
 
 
-char jawaban[4] = {'1', '2', '3', '4'};
+char jawaban[4] = {'2', '6', '7', '8'};
 int posisi=0;
 
 
@@ -115,16 +115,6 @@ void initGL(int width, int height)
     glLoadIdentity();
     glOrtho(-1.0, 1.0, -1.0, 1.0, -2.0, 2.0);
 
-     bola = gluNewQuadric();
-    gluQuadricTexture( bola, GL_TRUE);
-
-    //Image* bolaImage=loadBMP("./image2.bmp");
-    //bolaTexture = loadTexture(bolaImage);
-
-    bola2 = gluNewQuadric();
-    gluQuadricTexture( bola2, GL_TRUE);
-    //Image* bolaImage2=loadBMP("./earth.bmp");
-    //bolaTexture2 = loadTexture(bolaImage2);
 
     bola = gluNewQuadric();
     gluQuadricTexture( bola, GL_TRUE);
@@ -138,12 +128,12 @@ void initGL(int width, int height)
 
     bola3 = gluNewQuadric();
     gluQuadricTexture( bola3, GL_TRUE);
-    Image* bolaImage3=loadBMP("./image8.bmp");
+    Image* bolaImage3=loadBMP("./image7.bmp");
     bolaTexture3 = loadTexture(bolaImage3);
 
     bola4 = gluNewQuadric();
     gluQuadricTexture( bola4, GL_TRUE);
-    Image* bolaImage4=loadBMP("./image7.bmp");
+    Image* bolaImage4=loadBMP("./image8.bmp");
     bolaTexture4 = loadTexture(bolaImage4);
 
 
@@ -194,6 +184,17 @@ static void display(void)
 
     glPushMatrix();
     glEnable ( GL_TEXTURE_2D );
+    glBindTexture ( GL_TEXTURE_2D, bolaTexture4);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTranslatef(0.0f,0.0f,-5);
+     glRotatef(270,1,0,0);
+    glTranslatef(90.0f,0.0f,0.0f);
+    gluSphere(bola, 7, 20, 20);
+    glPopMatrix();
+
+    glPushMatrix();
+    glEnable ( GL_TEXTURE_2D );
     glBindTexture ( GL_TEXTURE_2D, bolaTexture3);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -203,16 +204,7 @@ static void display(void)
     gluSphere(bola, 7, 20, 20);
     glPopMatrix();
 
-    glPushMatrix();
-    glEnable ( GL_TEXTURE_2D );
-    glBindTexture ( GL_TEXTURE_2D, bolaTexture4);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTranslatef(0.0f,0.0f,-5);
-     glRotatef(270,1,0,0);
-    glTranslatef(90.0f,0.0f,0.0f);
-    gluSphere(bola, 7, 20, 20);
-    glPopMatrix();
+
 
 
    glPushMatrix();
@@ -244,14 +236,6 @@ static void keyboard(unsigned char key,int x,int y)
 	{
 
 
-case '1':
-    if ('1' == jawaban[posisi]){
-        posisi += 1;
-        Cx += 30;
-        Lx += 30;
-    }
-    break;
-
 case '2':
     if ('2' == jawaban[posisi]){
         posisi += 1;
@@ -260,16 +244,24 @@ case '2':
     }
     break;
 
-case '3':
-    if ('3' == jawaban[posisi]){
+case '6':
+    if ('6' == jawaban[posisi]){
         posisi += 1;
         Cx += 30;
         Lx += 30;
     }
     break;
 
-case '4':
-    if ('4' == jawaban[posisi]){
+case '8':
+    if ('8' == jawaban[posisi]){
+        posisi += 1;
+        Cx += 30;
+        Lx += 30;
+    }
+    break;
+
+case '7':
+    if ('7' == jawaban[posisi]){
         posisi += 1;
         Cx += 30;
         Lx += 30;
